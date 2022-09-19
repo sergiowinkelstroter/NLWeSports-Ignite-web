@@ -33,15 +33,18 @@ export const CreateAdModal = () => {
     }
 
     try {
-      await axios.post(`http://localhost:3333/games/${data.game}/ads`, {
-        name: data.name,
-        yearsPlaying: Number(data.yearsPlaying),
-        discord: data.discord,
-        weekDays: weekDays.map(Number),
-        hourStart: data.hourStart,
-        hourEnd: data.hourEnd,
-        useVoiceChannel: useVoiceChannel,
-      });
+      await axios.post(
+        `https://app-ignite-backend.herokuapp.com/games/${data.game}/ads`,
+        {
+          name: data.name,
+          yearsPlaying: Number(data.yearsPlaying),
+          discord: data.discord,
+          weekDays: weekDays.map(Number),
+          hourStart: data.hourStart,
+          hourEnd: data.hourEnd,
+          useVoiceChannel: useVoiceChannel,
+        }
+      );
 
       alert("Anuncio criado com sucesso");
     } catch (err) {

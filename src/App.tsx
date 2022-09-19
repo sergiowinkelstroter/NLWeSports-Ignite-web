@@ -22,7 +22,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3333/games")
+      .get("https://app-ignite-backend.herokuapp.com/games")
       .then((response) => setGames(response.data))
       .catch((error) => {
         console.error(error);
