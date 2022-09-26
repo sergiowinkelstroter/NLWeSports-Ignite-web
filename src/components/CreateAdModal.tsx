@@ -5,7 +5,7 @@ import * as ToggleGroup from "@radix-ui/react-toggle-group";
 import { CaretDown, Check, GameController } from "phosphor-react";
 import { Input } from "./Form/Input";
 import { useEffect, useState, FormEvent } from "react";
-import { Games } from "../App";
+import { Games } from "../pages/Home";
 import axios from "axios";
 
 export const CreateAdModal = () => {
