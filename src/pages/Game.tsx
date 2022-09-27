@@ -6,6 +6,11 @@ import LogoImg from "../assets/Logo.svg";
 import DuoCard from "../components/DuoCard";
 import * as Dialog from "@radix-ui/react-dialog";
 import DuoMatch from "../components/DuoMatch";
+import { Pagination } from "swiper";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
 
 export interface DuoCardProps {
   id: string;
@@ -24,17 +29,16 @@ const Game = () => {
   const { id, title } = useParams();
 
   async function getDiscordUser(adsID: string) {
-    await fetch(`https://app-ignite-backend.herokuapp.com/ads/${adsID}/discord`)
-      .then((response) => response.json())
-      .then((data) => setDiscordDuoSelected(data.discord));
+    await axios
+      .get(`https://app-ignite-backend.herokuapp.com/ads/${adsID}/discord`)
+      .then((response) => setDiscordDuoSelected(response.data.discord));
   }
 
   useEffect(() => {
-    fetch(`https://app-ignite-backend.herokuapp.com/games/${id}/ads`)
-      .then((response) => response.json())
-      .then((data) => setInfo(data));
+    axios
+      .get(`https://app-ignite-backend.herokuapp.com/games/${id}/ads`)
+      .then((response) => setInfo(response.data));
   }, []);
-  console.log(info);
 
   return (
     <div className="px-8">
@@ -43,7 +47,7 @@ const Game = () => {
           <CaretLeft size={32} color={"white"} />
         </Link>
 
-        <img src={LogoImg} alt="" />
+        <img className="w-36 md:w-52" src={LogoImg} alt="" />
         <div></div>
       </header>
       <main className="pt-14">
@@ -52,11 +56,36 @@ const Game = () => {
           Conecte-se e comece a jogar!
         </p>
         <Dialog.Root>
-          <div className=" text-white flex items-center justify-center mt-12">
-            {info.map((info) => (
-              <DuoCard data={info} onConnect={() => getDiscordUser(info.id)} />
-            ))}
-          </div>
+          <Swiper
+            breakpoints={{
+              375: {
+                width: 375,
+                slidesPerView: 1,
+              },
+              768: {
+                width: 768,
+                slidesPerView: 2,
+              },
+              1024: {
+                width: 1024,
+                slidesPerView: 3,
+              },
+            }}
+            modules={[Pagination]}
+            spaceBetween={300}
+            className="text-white flex items-center justify-center my-8 md:flex-row"
+          >
+            {info.map((info) => {
+              return (
+                <SwiperSlide key={info.id}>
+                  <DuoCard
+                    data={info}
+                    onConnect={() => getDiscordUser(info.id)}
+                  />
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
           <DuoMatch discord={discordDuoSelected} />
         </Dialog.Root>
       </main>

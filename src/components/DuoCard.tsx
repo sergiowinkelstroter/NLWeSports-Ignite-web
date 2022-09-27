@@ -18,7 +18,7 @@ interface Props {
 
 const DuoCard = ({ data, onConnect }: Props) => {
   return (
-    <div className="w-[350px] bg-[#2a2634] rounded-md p-5 mr-4 items-center">
+    <div className="w-[300px] md:w-[350px] bg-[#2a2634] rounded-md p-5  items-center">
       <DuoInfo label="Nome" value={data.name} />
       <DuoInfo label="Tempo de jogo" value={`${data.yearsPlaying} anos`} />
       <DuoInfo
